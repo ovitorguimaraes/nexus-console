@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("nexus-project")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c7c0d15a3df698bcafa4326e7b85ec7ea1b9632c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7ed4e9c799cbe7a0cfdf857c970edfef72add0e0")]
 [assembly: System.Reflection.AssemblyProductAttribute("nexus-project")]
 [assembly: System.Reflection.AssemblyTitleAttribute("nexus-project")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

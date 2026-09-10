@@ -43,7 +43,7 @@ class Program
     {
         string option = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
-                .AddChoices("Consultar", "Cadastrar", "Sair")
+                .AddChoices("Run NFe App", "Run CTe App", "Run NFSe App", "Run NFAg App", "Run NF3e App", "Run NFCom App", "Sair")
         );
 
         return option;
