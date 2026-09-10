@@ -37,13 +37,19 @@ class Program
         AnsiConsole.Write(
             new Rows(
                 new Rule(),
-                new Rule(),
-                new FigletText("nexus")
-                .Centered()
-                .Color(Color.Blue),
-                new Markup("[bold white]Console App[/]")
-                .Centered()
+                new Rule()
             )
+        );
+
+        AnsiConsole.Write(
+            new FigletText("nexus")
+            .Centered()
+            .Color(Color.Blue)
+        );
+
+        AnsiConsole.Write(
+            new Markup("[bold white]S Riko Automotive Hose[/]")
+            .Centered()           
         );
     }
 

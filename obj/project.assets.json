@@ -1,5 +1,5 @@
 {
-  "version": 3,
+  "version": 4,
   "targets": {
     "net10.0": {
       "Spectre.Console/0.57.2": {
@@ -83,19 +83,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/ovitorguimaraes/.nuget/packages/": {}
+    "C:\\Users\\08633\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/ovitorguimaraes/Desktop/nexus-project/nexus-project.csproj",
+      "projectUniqueName": "C:\\Users\\08633\\Documents\\GitHub\\nexus-console\\nexus-project.csproj",
       "projectName": "nexus-project",
-      "projectPath": "/Users/ovitorguimaraes/Desktop/nexus-project/nexus-project.csproj",
-      "packagesPath": "/Users/ovitorguimaraes/.nuget/packages/",
-      "outputPath": "/Users/ovitorguimaraes/Desktop/nexus-project/obj/",
+      "projectPath": "C:\\Users\\08633\\Documents\\GitHub\\nexus-console\\nexus-project.csproj",
+      "packagesPath": "C:\\Users\\08633\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\08633\\Documents\\GitHub\\nexus-console\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/ovitorguimaraes/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\08633\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
@@ -105,6 +105,7 @@
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {}
         }
@@ -119,10 +120,11 @@
         "auditLevel": "low",
         "auditMode": "all"
       },
-      "SdkAnalysisLevel": "10.0.100"
+      "SdkAnalysisLevel": "10.0.300"
     },
     "frameworks": {
       "net10.0": {
+        "framework": "net10.0",
         "targetAlias": "net10.0",
         "dependencies": {
           "Spectre.Console": {
@@ -146,7 +148,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/10.0.103/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.300/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.CSharp": "(,4.7.32767]",
           "Microsoft.VisualBasic": "(,10.4.32767]",
