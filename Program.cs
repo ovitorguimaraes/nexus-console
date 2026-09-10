@@ -34,11 +34,6 @@ class Program
         }
     }
 
-    static void Uii()
-    {
-
-    }
-
     static string Menu()
     {
         string option = AnsiConsole.Prompt(

@@ -129,5 +129,31 @@ class Ui
             new Markup("[bold #4980cb]by vitor guimaraes[/]")
             .Centered()           
         );
+
+        Footer();
+    }
+
+    public static void Footer()
+    {
+        int posicaoX = Console.CursorLeft;
+        int posicaoY = Console.CursorTop;
+
+        int alturaTerminal = AnsiConsole.Profile.Height;
+
+        Console.SetCursorPosition(0, alturaTerminal - 3);
+
+        AnsiConsole.Write(
+            new Rule()
+                .RuleStyle("#4980cb")
+        );
+
+        Console.SetCursorPosition(0, alturaTerminal - 2);
+
+        AnsiConsole.Write(
+            new Rule()
+                .RuleStyle("#4980cb")
+        );
+
+        Console.SetCursorPosition(posicaoX, posicaoY);
     }
 }
