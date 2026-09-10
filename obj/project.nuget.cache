@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "FtXfH64hrUE=",
+  "dgSpecHash": "KzDRISjz4Dk=",
   "success": true,
-  "projectFilePath": "C:\\Users\\08633\\Documents\\GitHub\\nexus-console\\nexus-project.csproj",
+  "projectFilePath": "/Users/ovitorguimaraes/Documents/GitHub/nexus-console/nexus-project.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\08633\\.nuget\\packages\\spectre.console\\0.57.2\\spectre.console.0.57.2.nupkg.sha512",
-    "C:\\Users\\08633\\.nuget\\packages\\spectre.console.ansi\\0.57.2\\spectre.console.ansi.0.57.2.nupkg.sha512"
+    "/Users/ovitorguimaraes/.nuget/packages/spectre.console/0.57.2/spectre.console.0.57.2.nupkg.sha512",
+    "/Users/ovitorguimaraes/.nuget/packages/spectre.console.ansi/0.57.2/spectre.console.ansi.0.57.2.nupkg.sha512"
   ],
   "logs": []
 }

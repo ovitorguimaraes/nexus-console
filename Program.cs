@@ -6,9 +6,13 @@ class Program
     public static string password = "1234";
     static void Main(string[] args)
     {
+        Ui.SplashScreen();
+
+        Ui.Header();
+
         Login(user, password);
 
-        Ui();
+        Ui.Header();
 
         switch (Menu())
         {
@@ -30,27 +34,9 @@ class Program
         }
     }
 
-    static void Ui()
+    static void Uii()
     {
-        Console.Clear();
 
-        AnsiConsole.Write(
-            new Rows(
-                new Rule(),
-                new Rule()
-            )
-        );
-
-        AnsiConsole.Write(
-            new FigletText("nexus")
-            .Centered()
-            .Color(Color.Blue)
-        );
-
-        AnsiConsole.Write(
-            new Markup("[bold white]S Riko Automotive Hose[/]")
-            .Centered()           
-        );
     }
 
     static string Menu()
@@ -65,7 +51,7 @@ class Program
 
     static void Login(string user, string password)
     {
-        Ui();
+        Ui.Header();
 
         Console.WriteLine();
 
