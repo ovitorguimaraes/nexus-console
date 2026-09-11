@@ -16,11 +16,34 @@ class Program
 
         switch (Menu())
         {
+            case "Run NFe App":
+                NFe.AppNFe();
+                break;
+
+            case "Run CTe App":
+                CTe.AppCTe();
+                break;
+
+            case "Run NFSe App":
+                NFSe.AppNFSe();
+                break;
+
+            case "Run NFAg App":
+                NFAg.AppNFAg();
+                break;
+
+            case "Run NF3e App":
+                NF3e.AppNF3e();
+                break;
+
+            case "Run NFCom App":
+                NFCom.AppNFCom();
+                break;
+
             case "Sair":
+                Console.WriteLine();
 
-            Console.WriteLine();
-
-            AnsiConsole.Write(
+                AnsiConsole.Write(
                 Align.Center(
                     new Panel("[red]Saindo...[/] Até a próxima!")
                     .BorderColor(Color.Red)
@@ -29,8 +52,7 @@ class Program
             );
 
             Thread.Sleep(2000);
-
-                break;
+            break;
         }
     }
 
@@ -73,9 +95,7 @@ class Program
                 )
             );
 
-            Console.CursorVisible = false;
             Thread.Sleep(3000);
-            Console.CursorVisible = true;
 
             Login(user, password);
         }
