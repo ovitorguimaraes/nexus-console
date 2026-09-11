@@ -1,9 +1,12 @@
 using System;
 using System.Text;
 using Spectre.Console;
+
+namespace Nexus.UI;
+
 class Ui
 {
-    public static string[] logo =
+    static string[] logo =
     {
         "╔══════════════════════════════════════════════╗",
         "",
@@ -19,78 +22,78 @@ class Ui
 
     public static void SplashScreen()
     {
+        Console.Clear();
+
         Console.OutputEncoding = Encoding.UTF8;
         Console.CursorVisible = false;
 
-        Console.Clear();
+        int heightConsole = AnsiConsole.Profile.Height;
+        int widthConsole = AnsiConsole.Profile.Width;
 
-        int alturaConsole = AnsiConsole.Profile.Height;
-        int larguraConsole = AnsiConsole.Profile.Width;
+        int startY = (heightConsole - logo.Length) / 2;
 
-        int inicioY = (alturaConsole - logo.Length) / 2;
+        if (startY < 0)
+            startY = 0;
 
-        if (inicioY < 0)
-            inicioY = 0;
-
-        int maiorLinha = 0;
+        int longestLine = 0;
 
         for (int i = 0; i < logo.Length; i++)
         {
-            if (logo[i].Length > maiorLinha)
-                maiorLinha = logo[i].Length;
+            if (logo[i].Length > longestLine)
+                longestLine = logo[i].Length;
         }
 
-        int maxDistancia = maiorLinha / 2 + 1;
+        int maxDistance = longestLine / 2 + 1;
 
-        for (int distancia = 0; distancia <= maxDistancia; distancia++)
+        for (int distance = 0; distance <= maxDistance; distance++)
         {
             for (int i = 0; i < logo.Length; i++)
             {
-                string linha = logo[i];
+                string line = logo[i];
 
-                if (linha.Length == 0)
+                if (line.Length == 0)
                     continue;
 
-                int inicioX = (larguraConsole - linha.Length) / 2;
+                int startX = (widthConsole - line.Length) / 2;
 
-                if (inicioX < 0)
-                    inicioX = 0;
+                if (startX < 0)
+                    startX = 0;
 
-                int centroEsquerdo = (linha.Length - 1) / 2;
-                int centroDireito = linha.Length / 2;
+                int centerLeft = (line.Length - 1) / 2;
+                int centerRight = line.Length / 2;
 
-                int posicaoEsquerda = centroEsquerdo - distancia;
-                int posicaoDireita = centroDireito + distancia;
+                int leftPosition = centerLeft - distance;
+                int rightPosition = centerRight + distance;
 
-                if (posicaoEsquerda >= 0 &&
-                    inicioX + posicaoEsquerda < larguraConsole &&
-                    inicioY + i < alturaConsole)
+                if (leftPosition >= 0 &&
+                    startX + leftPosition < widthConsole &&
+                    startY + i < heightConsole)
                 {
                     Console.SetCursorPosition(
-                        inicioX + posicaoEsquerda,
-                        inicioY + i
+                        startX + leftPosition,
+                        startY + i
                     );
 
                     AnsiConsole.Markup(
                         $"[#4980cb]{Markup.Escape(
-                            linha[posicaoEsquerda].ToString()
+                            line[leftPosition].ToString()
                         )}[/]"
                     );
                 }
 
-                if (posicaoDireita < linha.Length &&
-                    posicaoDireita != posicaoEsquerda &&
-                    inicioX + posicaoDireita < larguraConsole &&
-                    inicioY + i < alturaConsole)
+                if (rightPosition < line.Length &&
+                    rightPosition != leftPosition &&
+                    startX + rightPosition < widthConsole &&
+                    startY + i < heightConsole)
                 {
                     Console.SetCursorPosition(
-                        inicioX + posicaoDireita,
-                        inicioY + i
+                        startX + rightPosition,
+                        startY + i
                     );
 
                     AnsiConsole.Markup(
                         $"[#4980cb]{Markup.Escape(
-                            linha[posicaoDireita].ToString()
+                            line[rightPosition].ToString()
                         )}[/]"
                     );
                 }
@@ -102,15 +105,9 @@ class Ui
         Thread.Sleep(2000);
     }
 
-    public static void Header()
+    static void Header()
     {
-        Console.Clear();
-
-        AnsiConsole.Write(
-            new Markup("[#4980cb]╔═════════════════════════════════════════════════════════════════════════════════════╗[/]")
-            .Centered()
-        );
-
+        Console.SetCursorPosition(0, 2);
         for(int i = 2; i < logo.Length - 1; i++)
         {
             AnsiConsole.Write(
@@ -118,36 +115,55 @@ class Ui
                 .Centered()
             );
         }
-
-        AnsiConsole.Write(
-            new Markup("[bold #4980cb]by vitor guimaraes[/]")
-            .Centered()           
-        );
-
-        Footer();
     }
 
-    public static void Footer()
+    static void Border()
     {
-        int posicaoX = Console.CursorLeft;
-        int posicaoY = Console.CursorTop;
+        int width = Console.WindowWidth;
+        int height = Console.WindowHeight;
 
-        int alturaTerminal = AnsiConsole.Profile.Height;
+        Console.SetCursorPosition(0, 0);
+        Console.Write("╔");
 
-        Console.SetCursorPosition(0, alturaTerminal - 3);
+        Console.SetCursorPosition(width - 1, 0);
+        Console.Write("╗");
 
-        AnsiConsole.Write(
-            new Rule()
-                .RuleStyle("#4980cb")
-        );
+        Console.SetCursorPosition(0, height - 1);
+        Console.Write("╚");
 
-        Console.SetCursorPosition(0, alturaTerminal - 2);
+        Console.SetCursorPosition(width - 1, height - 1);
+        Console.Write("╝");
 
-        AnsiConsole.Write(
-            new Rule()
-                .RuleStyle("#4980cb")
-        );
+        for (int i = 1; i < width - 1; i++)
+        {
+            Console.SetCursorPosition(i, 0);
+            Console.Write("═");
 
-        Console.SetCursorPosition(posicaoX, posicaoY);
+            Console.SetCursorPosition(i, height - 1);
+            Console.Write("═");
+        }
+
+        for (int i = 1; i < height - 1; i++)
+        {
+            Console.SetCursorPosition(0, i);
+            Console.Write("║");
+
+            Console.SetCursorPosition(width - 1, i);
+            Console.Write("║");
+        }
+        Console.Write("\x1b[0m");
+    }
+
+    public static void AppUi(string clear, string color)
+    {
+        if(clear == "clear")
+            Console.Clear();
+        Header();
+
+        if(color == "error")
+            Console.ForegroundColor = ConsoleColor.Red;
+        else
+            Console.Write("\x1b[38;2;73;128;203m");
+        Border();
     }
 }

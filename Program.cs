@@ -1,4 +1,5 @@
 ﻿using Spectre.Console;
+using Nexus.UI;
 
 class Program
 {
@@ -8,11 +9,11 @@ class Program
     {
         Ui.SplashScreen();
 
-        Ui.Header();
+        Ui.AppUi("clear", "");
 
         Login(user, password);
 
-        Ui.Header();
+        Ui.AppUi("clear", "");
 
         switch (Menu())
         {
@@ -52,6 +53,7 @@ class Program
             );
 
             Thread.Sleep(2000);
+            Console.Clear();
             break;
         }
     }
@@ -68,13 +70,17 @@ class Program
 
     static void Login(string user, string password)
     {
-        Ui.Header();
+        Ui.AppUi("clear", "");
 
         Console.WriteLine();
+
+        Console.SetCursorPosition(3, 9);
 
         string readUser = AnsiConsole.Ask<string>(
             "Usuário: "
         ).ToUpper();
+
+        Console.SetCursorPosition(3, 10);
 
         string readPass = AnsiConsole.Ask<string>(
             "Senha: "
@@ -95,8 +101,8 @@ class Program
                 )
             );
 
+            Ui.AppUi("", "error");
             Thread.Sleep(3000);
-
             Login(user, password);
         }
     }
