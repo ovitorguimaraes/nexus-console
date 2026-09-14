@@ -1,8 +1,31 @@
 class NFe
 {
-    public static void AppNFe()
+    public static void ProcessingNFe(string account, string costCenter)
     {
-        Console.WriteLine("Nota Fiscal Eletrônica");
-        Console.ReadKey();
+        int i = 0;
+        foreach(Account GlAccount in TaxRules.accounts)
+        {
+            if(GlAccount.Number == account)
+            {
+                break;
+            }
+
+            i++;
+        }
+
+        if (TaxRules.accounts[i].Ipi)
+        {
+            
+        }
+
+        if (TaxRules.accounts[i].Icms)
+        {
+            
+        }
+
+        if (TaxRules.accounts[i].PisCofins)
+        {
+            
+        }
     }
 }
