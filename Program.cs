@@ -72,7 +72,7 @@ class Program
     {
         Ui.AppUi("clear", "");
 
-        Console.WriteLine();
+        Console.WriteLine();    
 
         Console.SetCursorPosition(3, 9);
 

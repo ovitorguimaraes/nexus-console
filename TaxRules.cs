@@ -1,6 +1,6 @@
-class TaxCreditRules
+class TaxRules
 {
-    public List<Account> accounts = new List<Account>
+    public static List<Account> accounts = new List<Account>
     {
         new Account
         {
