@@ -69,7 +69,7 @@ class NFe
             cofinsValue = totalProdValue - icmsValue * 0.0760;
         }
 
-        foreach(XElement prod in xmls[j].Descendants(ns + "prod"))
+        foreach(XElement prod in xmls[j].Descendants(ns + "prod")) // pra cada ncm in xml && pra cada vProd in prod in XML
         {
             
         }
