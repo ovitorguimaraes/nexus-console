@@ -2,18 +2,18 @@ using System.Xml.Linq;
 
 class NFe
 {
-    public static string serie;
-    public static string number;
-    public static List<Product> ncmProd = new List<Product>();
+    public static string Serie;
+    public static string Number;
+    public static List<Product> Products = new List<Product>();
     // FORNECEDOR
     // DATA EMISSA
-    public static double totalProdValue;
-    public static double totalValue;
-    public static double toPaymentTotalValue;
-    public static double ipiValue;
-    public static double icmsValue;
-    public static double pisValue;
-    public static double cofinsValue;
+    public static double TotalProdValue;
+    public static double TotalValue;
+    public static double ToPaymentTotalValue;
+    public static double IpiValue;
+    public static double IcmsValue;
+    public static double PisValue;
+    public static double CofinsValue;
     public static XNamespace ns = "http://www.portalfiscal.inf.br/nfe";
     public static List<XDocument> xmls = new List<XDocument>();
     public static string[] files = Directory.GetFiles("/Users/ovitorguimaraes/Documents/GitHub/nexus-console/db-xmls");
@@ -71,14 +71,23 @@ class NFe
 
         foreach(XElement prod in xmls[j].Descendants(ns + "prod")) // pra cada ncm in xml && pra cada vProd in prod in XML
         {
-            
+            foreach(XElement ncm in prod)
+            {
+                new Product product = 
+                {
+                    Ncm = 
+                    Value =
+                }
+
+                Products.Add(product);
+            }
         }
     }
 }
 
 class Product
 {
-    public string ncm;
-    public double value;
+    public string Ncm;
+    public double Value;
 
 }
