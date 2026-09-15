@@ -4,6 +4,7 @@ class NFe
 {
     public static string serie;
     public static string number;
+    public static List<Product> ncmProd = new List<Product>();
     // FORNECEDOR
     // DATA EMISSA
     public static double totalProdValue;
@@ -16,7 +17,7 @@ class NFe
     public static XNamespace ns = "http://www.portalfiscal.inf.br/nfe";
     public static List<XDocument> xmls = new List<XDocument>();
     public static string[] files = Directory.GetFiles("/Users/ovitorguimaraes/Documents/GitHub/nexus-console/db-xmls");
-    public static void ProcessingNFe(string csvNumber, string csvAccount, string csvCostCenter)
+    public static void ProcessingNFe(string csvNumber, string csvAccount, string csvCostCenter) // preciso de uma List de produtos da NFe
     {
 
         foreach(string file in files)
@@ -42,6 +43,8 @@ class NFe
             number = xml.Descendants(ns + "nNF").First().Value;
             if(number == TaxRules.accounts[i].Number) // -> Isso está completamente errado, preciso ajustar, o número deve ser comparado ao número do CSV, e não ao número da conta contábil.
             {
+                serie = xml.Descendants(ns + "serie").First().Value;
+                totalValue = double.Parse(xml.Descendants(ns + "vNF").First().Value);
                 break;
             }
 
@@ -65,5 +68,17 @@ class NFe
             pisValue = totalProdValue - icmsValue * 0.0165;
             cofinsValue = totalProdValue - icmsValue * 0.0760;
         }
+
+        foreach(XElement prod in xmls[j].Descendants(ns + "prod"))
+        {
+            
+        }
     }
+}
+
+class Product
+{
+    public string ncm;
+    public double value;
+
 }
