@@ -18,8 +18,12 @@ class Program
         switch (Menu())
         {
             case "Run NFe App":
-                NFe.AppNFe();
-                break;
+                foreach(string reportLine in File.ReadAllLines("reportNFe.csv"))
+                {
+                    string[] columns = reportLine.Split(";");
+                    NFe.ProcessNFe(columns[1], columns[2], columns[12], columns[13]);
+                }
+                    break;
 
             case "Run CTe App":
                 CTe.AppCTe();
@@ -72,7 +76,7 @@ class Program
     {
         Ui.AppUi("clear", "");
 
-        Console.WriteLine();    
+        Console.WriteLine();
 
         Console.SetCursorPosition(3, 9);
 

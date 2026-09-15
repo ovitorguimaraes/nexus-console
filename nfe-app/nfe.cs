@@ -1,24 +1,25 @@
 using System.Xml.Linq;
-
 class NFe
 {
-    public static string Serie;
-    public static string Number;
-    public static List<Product> Products = new List<Product>();
-    // FORNECEDOR
-    // DATA EMISSA
-    public static double TotalProdValue;
-    public static double TotalValue;
-    public static double ToPaymentTotalValue;
-    public static double IpiValue;
-    public static double IcmsValue;
-    public static double PisValue;
-    public static double CofinsValue;
     public static XNamespace ns = "http://www.portalfiscal.inf.br/nfe";
     public static List<XDocument> xmls = new List<XDocument>();
     public static string[] files = Directory.GetFiles("/Users/ovitorguimaraes/Documents/GitHub/nexus-console/db-xmls");
-    public static void ProcessingNFe(string csvNumber, string csvAccount, string csvCostCenter) // preciso de uma List de produtos da NFe
+    public static void ProcessNFe(string csvInvoiceNumber, string csvSupplierCnpj, string csvAccount, string csvCostCenter)
     {
+        string serie = "";
+        string number = "";
+        string supplierCnpj = "";
+
+        double totalProductValue = 0;
+        double totalValue = 0;
+        double amountToPay = 0; // -> FUNCTION CALCRETENCION IS REQUIRED
+        double ipiValue = 0;
+        double icmsValue = 0;
+        double pisValue = 0;
+        double cofinsValue = 0;
+
+        List<Product> products = new List<Product>();
+        Date issueDate;
 
         foreach(string file in files)
         {
@@ -26,60 +27,68 @@ class NFe
             xmls.Add(xml);
         }
 
-        int i = 0;
-        foreach(Account GlAccount in TaxRules.accounts)
-        {
-            if(GlAccount.Number == csvAccount)
-            {
-                break;
-            }
-
-            i++;
-        }
-
-        int j = 0;
         foreach(XDocument xml in xmls)
         {
             number = xml.Descendants(ns + "nNF").First().Value;
-            if(number == TaxRules.accounts[i].Number) // -> Isso está completamente errado, preciso ajustar, o número deve ser comparado ao número do CSV, e não ao número da conta contábil.
+            supplierCnpj = xml.Descendants(ns + "CNPJ").First().Value;
+            
+            if(number == csvInvoiceNumber && supplierCnpj == csvSupplierCnpj)
             {
                 serie = xml.Descendants(ns + "serie").First().Value;
+                totalProductValue = double.Parse(xml.Descendants(ns + "total").First().Element(ns + "vProd").Value); 
                 totalValue = double.Parse(xml.Descendants(ns + "vNF").First().Value);
+                issueDate = new Date
+                {
+                    Day = xml.Descendants(ns + "dhEmi").First().Value.Substring(8, 2),
+                    Month = xml.Descendants(ns + "dhEmi").First().Value.Substring(5, 2),
+                    Year = xml.Descendants(ns + "dhEmi").First().Value.Substring(0, 4),
+                };
+
+                        
+                foreach(XElement prod in xml.Descendants(ns + "prod"))
+                {
+                    Product product = new Product()
+                    {
+                        Ncm = prod.Element(ns + "NCM").Value,
+                        Value = double.Parse(prod.Element(ns + "vProd").Value)
+                    };
+
+                    products.Add(product);
+                }
+
+                foreach(Account account in TaxRules.accounts)
+                {
+                    if(account.Number != csvAccount)
+                    {
+                        continue;
+                    }
+
+                    if (account.Ipi)
+                    {
+                        ipiValue = double.Parse(xml.Descendants(ns + "vIPI").First().Value);
+                    }
+
+                    if (account.Icms)
+                    {
+                        icmsValue = double.Parse(xml.Descendants(ns + "vICMS").First().Value);
+                    }
+
+                    if (account.PisCofins)
+                    {
+                        pisValue = (totalProductValue - icmsValue) * 0.0165;
+                        cofinsValue = (totalProductValue - icmsValue) * 0.0760;
+                    }
+
+                    break;
+                }
+
                 break;
             }
 
-            j++;
-        }
-
-        totalProdValue = double.Parse(xmls[j].Descendants(ns + "vProd").First().Value); // preciso pegar vProd de total
-
-        if (TaxRules.accounts[i].Ipi)
-        {
-            ipiValue = double.Parse(xmls[j].Descendants(ns + "vIPI").First().Value);
-        }
-
-        if (TaxRules.accounts[i].Icms)
-        {
-            icmsValue = double.Parse(xmls[j].Descendants(ns + "vICMS").First().Value);
-        }
-
-        if (TaxRules.accounts[i].PisCofins)
-        {
-            pisValue = totalProdValue - icmsValue * 0.0165;
-            cofinsValue = totalProdValue - icmsValue * 0.0760;
-        }
-
-        foreach(XElement prod in xmls[j].Descendants(ns + "prod")) // pra cada ncm in xml && pra cada vProd in prod in XML
-        {
-            foreach(XElement ncm in prod)
+            else
             {
-                new Product product = 
-                {
-                    Ncm = 
-                    Value =
-                }
-
-                Products.Add(product);
+                number = "";
+                supplierCnpj = "";
             }
         }
     }
@@ -90,4 +99,11 @@ class Product
     public string Ncm;
     public double Value;
 
+}
+
+class Date
+{
+    public string Day;
+    public string Month;
+    public string Year;
 }
