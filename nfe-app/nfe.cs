@@ -6,7 +6,7 @@ class NFe
     public static string[] files = Directory.GetFiles("/Users/ovitorguimaraes/Documents/GitHub/nexus-console/db-xmls");
     public static void ProcessNFe(string csvInvoiceNumber, string csvSupplierCnpj, string csvAccount, string csvCostCenter)
     {
-        string serie = "";
+        string series = "";
         string number = "";
         string supplierCnpj = "";
 
@@ -21,6 +21,8 @@ class NFe
         List<Product> products = new List<Product>();
         Date issueDate;
 
+        xmls.Clear();
+
         foreach(string file in files)
         {
             XDocument xml = XDocument.Load(file);
@@ -34,8 +36,8 @@ class NFe
             
             if(number == csvInvoiceNumber && supplierCnpj == csvSupplierCnpj)
             {
-                serie = xml.Descendants(ns + "serie").First().Value;
-                totalProductValue = double.Parse(xml.Descendants(ns + "total").First().Element(ns + "vProd").Value); 
+                series = xml.Descendants(ns + "serie").First().Value;
+                totalProductValue = double.Parse(xml.Descendants(ns + "ICMSTot").First().Element(ns + "vProd").Value); 
                 totalValue = double.Parse(xml.Descendants(ns + "vNF").First().Value);
                 issueDate = new Date
                 {
