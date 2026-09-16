@@ -1,9 +1,10 @@
 using System.Xml.Linq;
 class NFe
 {
+    public List<Error> errors = new List<Error>();
     public static XNamespace ns = "http://www.portalfiscal.inf.br/nfe";
     public static List<XDocument> xmls = new List<XDocument>();
-    public static string[] files = Directory.GetFiles("/Users/ovitorguimaraes/Documents/GitHub/nexus-console/db-xmls");
+    public static string[] files = Directory.GetFiles("db-xml", "*.xml");
     public static void ProcessNFe(string csvInvoiceNumber, string csvSupplierCnpj, string csvAccount, string csvCostCenter)
     {
         string series = "";
@@ -108,4 +109,10 @@ class Date
     public string Day;
     public string Month;
     public string Year;
+}
+
+class Error
+{
+    public string Code;
+    public string Justification;
 }

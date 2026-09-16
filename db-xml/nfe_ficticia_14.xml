@@ -1,0 +1,243 @@
+<?xml version='1.0' encoding='utf-8'?>
+<nfeProc xmlns="http://www.portalfiscal.inf.br/nfe" versao="4.00">
+  <!-- DOCUMENTO FICTICIO PARA TESTES - SEM VALIDADE FISCAL -->
+  <NFe>
+    <infNFe Id="NFe35260999000014000100559000009000141700000144" versao="4.00">
+      <ide>
+        <cUF>35</cUF>
+        <cNF>70000014</cNF>
+        <natOp>VENDA DE PRODUCAO DO ESTABELECIMENTO - TESTE</natOp>
+        <mod>55</mod>
+        <serie>900</serie>
+        <nNF>900014</nNF>
+        <dhEmi>2026-09-14T09:00:00-03:00</dhEmi>
+        <dhSaiEnt>2026-09-14T09:15:00-03:00</dhSaiEnt>
+        <tpNF>1</tpNF>
+        <idDest>1</idDest>
+        <cMunFG>3550308</cMunFG>
+        <tpImp>1</tpImp>
+        <tpEmis>1</tpEmis>
+        <cDV>4</cDV>
+        <tpAmb>2</tpAmb>
+        <finNFe>1</finNFe>
+        <indFinal>0</indFinal>
+        <indPres>9</indPres>
+        <indIntermed>0</indIntermed>
+        <procEmi>0</procEmi>
+        <verProc>MOCK-GENERATOR-1.0</verProc>
+      </ide>
+      <emit>
+        <CNPJ>99000014000100</CNPJ>
+        <xNome>FORNECEDOR FICTICIO 14 LTDA - TESTE</xNome>
+        <xFant>FORNECEDOR TESTE 14</xFant>
+        <enderEmit>
+          <xLgr>RUA DOS EXEMPLOS</xLgr>
+          <nro>114</nro>
+          <xBairro>BAIRRO FICTICIO</xBairro>
+          <cMun>3550308</cMun>
+          <xMun>SAO PAULO</xMun>
+          <UF>SP</UF>
+          <CEP>01001000</CEP>
+          <cPais>1058</cPais>
+          <xPais>BRASIL</xPais>
+          <fone>1100000000</fone>
+        </enderEmit>
+        <IE>900000000014</IE>
+        <CRT>3</CRT>
+      </emit>
+      <dest>
+        <CNPJ>88000014000100</CNPJ>
+        <xNome>CLIENTE FICTICIO 14 SA - TESTE</xNome>
+        <enderDest>
+          <xLgr>AVENIDA DE HOMOLOGACAO</xLgr>
+          <nro>214</nro>
+          <xBairro>DISTRITO DE TESTES</xBairro>
+          <cMun>3550308</cMun>
+          <xMun>SAO PAULO</xMun>
+          <UF>SP</UF>
+          <CEP>01002000</CEP>
+          <cPais>1058</cPais>
+          <xPais>BRASIL</xPais>
+          <fone>1100000000</fone>
+        </enderDest>
+        <indIEDest>1</indIEDest>
+        <IE>800000000014</IE>
+      </dest>
+      <det nItem="1">
+        <prod>
+          <cProd>CARROC-07-03</cProd>
+          <cEAN>SEM GTIN</cEAN>
+          <xProd>COMPONENTE DE ACABAMENTO DE CARROCARIA AUTOMOTIVA</xProd>
+          <NCM>87082999</NCM>
+          <CFOP>5101</CFOP>
+          <uCom>PC</uCom>
+          <qCom>30.0000</qCom>
+          <vUnCom>52.0000000000</vUnCom>
+          <vProd>1560.00</vProd>
+          <cEANTrib>SEM GTIN</cEANTrib>
+          <uTrib>PC</uTrib>
+          <qTrib>30.0000</qTrib>
+          <vUnTrib>52.0000000000</vUnTrib>
+          <indTot>1</indTot>
+        </prod>
+        <imposto>
+          <ICMS>
+            <ICMS00>
+              <orig>0</orig>
+              <CST>00</CST>
+              <modBC>3</modBC>
+              <vBC>1560.00</vBC>
+              <pICMS>7.0000</pICMS>
+              <vICMS>109.20</vICMS>
+            </ICMS00>
+          </ICMS>
+          <IPI>
+            <cEnq>999</cEnq>
+            <IPINT>
+              <CST>53</CST>
+            </IPINT>
+          </IPI>
+          <PIS>
+            <PISAliq>
+              <CST>01</CST>
+              <vBC>1450.80</vBC>
+              <pPIS>1.6500</pPIS>
+              <vPIS>23.94</vPIS>
+            </PISAliq>
+          </PIS>
+          <COFINS>
+            <COFINSAliq>
+              <CST>01</CST>
+              <vBC>1450.80</vBC>
+              <pCOFINS>7.6000</pCOFINS>
+              <vCOFINS>110.26</vCOFINS>
+            </COFINSAliq>
+          </COFINS>
+          <IBSCBS>
+            <CST>000</CST>
+            <cClassTrib>000001</cClassTrib>
+            <gIBSCBS>
+              <vBC>1316.60</vBC>
+              <gIBSUF>
+                <pIBSUF>0.1000</pIBSUF>
+                <vIBSUF>1.32</vIBSUF>
+              </gIBSUF>
+              <gIBSMun>
+                <pIBSMun>0.0000</pIBSMun>
+                <vIBSMun>0.00</vIBSMun>
+              </gIBSMun>
+              <vIBS>1.32</vIBS>
+              <gCBS>
+                <pCBS>0.9000</pCBS>
+                <vCBS>11.85</vCBS>
+              </gCBS>
+            </gIBSCBS>
+          </IBSCBS>
+        </imposto>
+        <infAdProd>MERCADORIA E DADOS INTEIRAMENTE FICTICIOS PARA TESTES</infAdProd>
+        <vItem>1329.77</vItem>
+      </det>
+      <total>
+        <ICMSTot>
+          <vBC>1560.00</vBC>
+          <vICMS>109.20</vICMS>
+          <vICMSDeson>0.00</vICMSDeson>
+          <vFCP>0.00</vFCP>
+          <vBCST>0.00</vBCST>
+          <vST>0.00</vST>
+          <vFCPST>0.00</vFCPST>
+          <vFCPSTRet>0.00</vFCPSTRet>
+          <vProd>1560.00</vProd>
+          <vFrete>0.00</vFrete>
+          <vSeg>0.00</vSeg>
+          <vDesc>0.00</vDesc>
+          <vII>0.00</vII>
+          <vIPI>0.00</vIPI>
+          <vIPIDevol>0.00</vIPIDevol>
+          <vPIS>23.94</vPIS>
+          <vCOFINS>110.26</vCOFINS>
+          <vOutro>0.00</vOutro>
+          <vNF>1560.00</vNF>
+        </ICMSTot>
+        <IBSCBSTot>
+          <vBCIBSCBS>1316.60</vBCIBSCBS>
+          <gIBS>
+            <gIBSUF>
+              <vDif>0.00</vDif>
+              <vDevTrib>0.00</vDevTrib>
+              <vIBSUF>1.32</vIBSUF>
+            </gIBSUF>
+            <gIBSMun>
+              <vDif>0.00</vDif>
+              <vDevTrib>0.00</vDevTrib>
+              <vIBSMun>0.00</vIBSMun>
+            </gIBSMun>
+            <vIBS>1.32</vIBS>
+            <vCredPres>0.00</vCredPres>
+            <vCredPresCondSus>0.00</vCredPresCondSus>
+          </gIBS>
+          <gCBS>
+            <vDif>0.00</vDif>
+            <vDevTrib>0.00</vDevTrib>
+            <vCBS>11.85</vCBS>
+            <vCredPres>0.00</vCredPres>
+            <vCredPresCondSus>0.00</vCredPresCondSus>
+          </gCBS>
+          <vNFTot>1329.77</vNFTot>
+        </IBSCBSTot>
+      </total>
+      <transp>
+        <modFrete>9</modFrete>
+        <vol>
+          <qVol>1</qVol>
+          <esp>VOLUME TESTE</esp>
+          <marca>SEM MARCA - TESTE</marca>
+          <pesoL>5.000</pesoL>
+          <pesoB>5.500</pesoB>
+        </vol>
+      </transp>
+      <cobr>
+        <fat>
+          <nFat>900014</nFat>
+          <vOrig>1560.00</vOrig>
+          <vDesc>0.00</vDesc>
+          <vLiq>1560.00</vLiq>
+        </fat>
+        <dup>
+          <nDup>001</nDup>
+          <dVenc>2026-10-30</dVenc>
+          <vDup>1560.00</vDup>
+        </dup>
+      </cobr>
+      <pag>
+        <detPag>
+          <indPag>1</indPag>
+          <tPag>15</tPag>
+          <vPag>1560.00</vPag>
+        </detPag>
+      </pag>
+      <infAdic>
+        <infAdFisco>DOCUMENTO FICTICIO DE HOMOLOGACAO - SEM EFEITOS FISCAIS</infAdFisco>
+        <infCpl>MASSA DE TESTE 14; CATEGORIA: ICMS 7% / CFOP 5101 / SEM IPI</infCpl>
+      </infAdic>
+      <infRespTec>
+        <CNPJ>00000000000000</CNPJ>
+        <xContato>RESPONSAVEL FICTICIO</xContato>
+        <email>teste@example.invalid</email>
+        <fone>0000000000</fone>
+      </infRespTec>
+    </infNFe>
+  </NFe>
+  <protNFe versao="4.00">
+    <infProt Id="IdTESTE000000000000014">
+      <tpAmb>2</tpAmb>
+      <verAplic>MOCK-GENERATOR-1.0</verAplic>
+      <chNFe>35260999000014000100559000009000141700000144</chNFe>
+      <dhRecbto>2026-09-14T09:16:00-03:00</dhRecbto>
+      <nProt>000000000000014</nProt>
+      <digVal>SEM-ASSINATURA-DIGITAL-VALIDA</digVal>
+      <cStat>999</cStat>
+      <xMotivo>DOCUMENTO FICTICIO - SEM VALIDADE FISCAL</xMotivo>
+    </infProt>
+  </protNFe>
+</nfeProc>

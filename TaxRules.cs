@@ -22,7 +22,7 @@ class TaxRules
             PisCofins = true,
         },
 
-                new Account
+        new Account
         {
             Number = "310301",
             Description = "Estoque - Linha produtiva 03",
