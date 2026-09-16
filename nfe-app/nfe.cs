@@ -1,28 +1,36 @@
 using System.Xml.Linq;
 class NFe
 {
-    public List<Error> errors = new List<Error>();
+    #region invoiceValues
+    public static string series;
+    public static string number;
+    public static string supplierCnpj;
+
+    public static double totalProductValue;
+    public static double totalValue;
+    public static double amountToPay; // <- REQUIRES THE IsPisCofinsWithholdingRequired FUNCTION
+    public static double ipiValue;
+    public static double icmsValue;
+    public static double pisValue;
+    public static double cofinsValue;
+
+    public static List<Product> products = new List<Product>();
+    public static Date issueDate;
+    #endregion
+    #region checkReport
+    public static string[] invoice = new string[14];
+    public static int checkControl;
+    public static int ok;
+    public static List<Error> errors = new List<Error>();
+    #endregion
+    #region xmlsControl
+    public static string[] files = Directory.GetFiles("db-xml", "*.xml");
     public static XNamespace ns = "http://www.portalfiscal.inf.br/nfe";
     public static List<XDocument> xmls = new List<XDocument>();
-    public static string[] files = Directory.GetFiles("db-xml", "*.xml");
+    #endregion
     public static void ProcessNFe(string csvInvoiceNumber, string csvSupplierCnpj, string csvAccount, string csvCostCenter)
     {
-        string series = "";
-        string number = "";
-        string supplierCnpj = "";
-
-        double totalProductValue = 0;
-        double totalValue = 0;
-        double amountToPay = 0; // -> FUNCTION CALCRETENCION IS REQUIRED
-        double ipiValue = 0;
-        double icmsValue = 0;
-        double pisValue = 0;
-        double cofinsValue = 0;
-
-        List<Product> products = new List<Product>();
-        Date issueDate;
-
-        xmls.Clear();
+        ClearNFe();
 
         foreach(string file in files)
         {
@@ -30,7 +38,7 @@ class NFe
             xmls.Add(xml);
         }
 
-        foreach(XDocument xml in xmls)
+        foreach(XDocument xml in xmls) // <- USE LINQ AND LAMBDA TO SIMPLIFY
         {
             number = xml.Descendants(ns + "nNF").First().Value;
             supplierCnpj = xml.Descendants(ns + "CNPJ").First().Value;
@@ -94,6 +102,71 @@ class NFe
                 supplierCnpj = "";
             }
         }
+
+        // THIS WILL BE SUBSTITUTED =>
+        invoice[0] = series;
+        invoice[1] = number;
+        invoice[2] = supplierCnpj;
+        invoice[3] = issueDate.ToString();
+        invoice[4] = "cfop entrada"; // <-
+        invoice[5] = totalProductValue.ToString();
+        invoice[6] = totalValue.ToString();
+        invoice[7] = amountToPay.ToString();
+        invoice[8] = ipiValue.ToString();
+        invoice[9] = icmsValue.ToString();
+        invoice[10] = pisValue.ToString();
+        invoice[11] = cofinsValue.ToString();
+        invoice[12] = "account"; // <-
+        invoice[13] = "cost center"; // <-
+        //
+    }
+
+    public static void ClearNFe()
+    {
+        invoice = new string[11];
+
+        series = "";
+        number = "";
+        supplierCnpj = "";
+        totalProductValue = 0;
+        totalValue = 0;
+        amountToPay = 0; // <- REQUIRES THE IsPisCofinsWithholdingRequired FUNCTION
+        ipiValue = 0;
+        icmsValue = 0;
+        pisValue = 0;
+        cofinsValue = 0;
+        issueDate = new Date();
+
+        products.Clear();
+
+        xmls.Clear();
+    }
+
+    public static void CheckNFe()
+    {
+        string[] report = File.ReadAllLines("reportNFe.csv");
+
+        int invoicePosition = Array.FindIndex(report, reportLine =>
+        {
+            string[] columns = reportLine.Split(';');
+
+            return columns[1].Trim() == number && columns[2].Trim() == supplierCnpj;
+        });
+
+        for(int i = 0; i < invoice.Length; i++)
+        {
+            if(invoice[i] != "" && invoice[i] != report[invoicePosition].Split(';')[i])
+            {
+                checkControl++;
+                errors.Add(new Error{Line = invoicePosition, Column = 0, Justification = $"Serie correta da NFe: {series}"});
+            }
+            
+            else
+            {
+                checkControl++;
+                ok++;
+            }
+        }
     }
 }
 
@@ -101,7 +174,6 @@ class Product
 {
     public string Ncm;
     public double Value;
-
 }
 
 class Date
@@ -113,6 +185,7 @@ class Date
 
 class Error
 {
-    public string Code;
+    public int Line;
+    public int Column;
     public string Justification;
 }
