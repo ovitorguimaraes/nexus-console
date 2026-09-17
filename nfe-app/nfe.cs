@@ -88,7 +88,7 @@ class NFe
                     xml.Descendants(ns + "dhEmi").First().Value.Substring(8, 2).ToString() + "/" 
                         + xml.Descendants(ns + "dhEmi").First().Value.Substring(5, 2) + "/" 
                         + xml.Descendants(ns + "dhEmi").First().Value.Substring(0, 4),
-                    "cfop entrada", // ! <- <- <-
+                    xml.Descendants(ns + "CFOP").First().Value,
                     totalProductValue.ToString(),
                     xml.Descendants(ns + "vNF").First().Value,
                     (decimal.Parse(xml.Descendants(ns + "vNF").First().Value) - totalWithholdingValue).ToString(), // ! check values in XML
@@ -96,8 +96,6 @@ class NFe
                     icmsValue.ToString(),
                     pisValue.ToString(),
                     cofinsValue.ToString(),
-                    "account", // ! <- <- <-
-                    "cost center", // ! <- <- <-
                 };
             })
             .FirstOrDefault();
