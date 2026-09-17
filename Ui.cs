@@ -178,5 +178,7 @@ class Ui
             Console.WriteLine($"Erro encontrada na linha {error.Line.ToString()}, valor incorreto: {NFeRules.report[error.Line].Split(';')[error.Column]}.");
             Console.WriteLine($"{error.Justification}");
         }
+
+        Console.ReadKey();
     }
 }

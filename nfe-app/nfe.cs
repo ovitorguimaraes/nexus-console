@@ -34,10 +34,10 @@ class NFe
                 double totalProductValue =
                 double.Parse(xml.Descendants(ns + "ICMSTot").First().Element(ns + "vProd")!.Value);
 
-                double ipiValue = 0;
-                double icmsValue = 0;
-                double pisValue = 0;
-                double cofinsValue = 0;
+                string ipiValue = "0";
+                string icmsValue = "0";
+                string pisValue = "0";
+                string cofinsValue = "0";
                 decimal totalWithholdingValue = 0;
 
                 foreach(XElement prod in xml.Descendants(ns + "prod"))
@@ -63,19 +63,19 @@ class NFe
                     if (account.Ipi)
                     {
                         ipiValue =
-                            double.Parse(xml.Descendants(ns + "vIPI").First().Value);
+                            xml.Descendants(ns + "vIPI").First().Value;
                     }
 
                     if (account.Icms)
                     {
                         icmsValue =
-                            double.Parse(xml.Descendants(ns + "vICMS").First().Value);
+                            xml.Descendants(ns + "vICMS").First().Value;
                     }
 
                     if (account.PisCofins)
                     {
-                        pisValue = (totalProductValue - icmsValue) * 0.0165;
-                        cofinsValue = (totalProductValue - icmsValue) * 0.0760;
+                        pisValue = ((totalProductValue - double.Parse(icmsValue)) * 0.0165).ToString();
+                        cofinsValue = ((totalProductValue - double.Parse(icmsValue)) * 0.0760).ToString();
                     }
 
                     break;
@@ -92,11 +92,11 @@ class NFe
                     xml.Descendants(ns + "CFOP").First().Value,
                     totalProductValue.ToString(),
                     xml.Descendants(ns + "vNF").First().Value,
-                    (decimal.Parse(xml.Descendants(ns + "vNF").First().Value) - totalWithholdingValue).ToString(), // ! check values in XML
-                    ipiValue.ToString(),
-                    icmsValue.ToString(),
-                    pisValue.ToString(),
-                    cofinsValue.ToString(),
+                    (decimal.Parse(xml.Descendants(ns + "vNF").First().Value) - totalWithholdingValue).ToString(), 
+                    ipiValue,
+                    icmsValue,
+                    pisValue,
+                    cofinsValue,
                 };
             })
             .FirstOrDefault();
