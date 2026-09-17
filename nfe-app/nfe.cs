@@ -3,6 +3,7 @@ class NFe
 {
     #region invoicePisCofinsWithholding
     public static List<Product> products = new List<Product>();
+    public static List<WithholdingNcm> withholdingNcms = new List<WithholdingNcm>();
     #endregion
     #region checkReport
     public static string[]? invoice;
@@ -157,4 +158,24 @@ class Error
     public int Line {get; set; }
     public int Column { get; set; }
     public required string Justification { get; set; }
+}
+
+class WithholdingNcm
+{
+    public required string Ncm { get; set; }
+    public bool HasException {get; set; }
+    public string? Exception {get; set;}
+
+    public WithholdingNcm(string ncm, bool hasException, string? exception)
+    {
+        if(hasException && string.IsNullOrWhiteSpace(exception))
+            throw new ArgumentException(
+                "Exception description is required when HasException is true.",
+                nameof(exception)
+            );
+
+        Ncm = ncm;
+        HasException = hasException;
+        Exception = exception;
+    }
 }
