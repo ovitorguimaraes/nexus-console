@@ -1,5 +1,6 @@
 class NFeRules
 {
+    public static string[] report = File.ReadAllLines("reportNFe.csv");
     public static List<WithholdingNcm> WithholdingNcms = new List<WithholdingNcm>()
     {
         // ! <- NCMS HERE
@@ -9,9 +10,9 @@ class NFeRules
     {
         if(WithholdingNcms.Any(ncm => ncm.Ncm == product.Ncm))
         {
-            return product.Value - (product.Value * 0.006m);
+            return product.Value * 0.006m;
         }
-        
+
         return 0;
     }
 }

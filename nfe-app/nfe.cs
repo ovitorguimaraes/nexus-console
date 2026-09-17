@@ -1,4 +1,5 @@
 using System.Xml.Linq;
+using Nexus.UI;
 class NFe
 {
     #region invoicePisCofinsWithholding
@@ -123,9 +124,7 @@ class NFe
 
     public static void CheckNFe()
     {
-        string[] report = File.ReadAllLines("reportNFe.csv");
-
-        int invoicePosition = Array.FindIndex(report, reportLine =>
+        int invoicePosition = Array.FindIndex(NFeRules.report, reportLine =>
         {
             string[] columns = reportLine.Split(';');
 
@@ -134,10 +133,10 @@ class NFe
 
         for(int i = 0; i < invoice!.Length; i++)
         {
-            if(invoice[i] != "" && invoice[i] != report[invoicePosition].Split(';')[i])
+            if(invoice[i] != "" && invoice[i] != NFeRules.report[invoicePosition].Split(';')[i])
             {
                 checkControl++;
-                errors.Add(new Error{Line = invoicePosition, Column = 0, Justification = $"Serie correta da NFe: {invoice[i]}"});
+                errors.Add(new Error{Line = invoicePosition, Column = i, Justification = $"Informação correta da NFe: {invoice[i]}"});
             }
             
             else
@@ -146,6 +145,8 @@ class NFe
                 ok++;
             }
         }
+
+        Ui.NFeApp(checkControl, errors);
     }
 }
 

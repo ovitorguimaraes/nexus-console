@@ -166,4 +166,16 @@ class Ui
             Console.Write("\x1b[38;2;73;128;203m");
         Border();
     }
+
+    public static void NFeApp(int checkedLines, List<Error> errors)
+    {
+        Console.WriteLine($"DADOS VALIDADOS: {checkedLines} ");
+        Console.WriteLine($"ERROS ENCONTRADOS EM: {errors.Count} CÉLULAS DO RELATÓRIO");
+        Console.WriteLine($"DESCRITIVO DE ERROS: ");
+        foreach(Error error in errors)
+        {
+            Console.WriteLine($"Erro encontrada na linha {error.Line.ToString()}, valor incorreto: {NFeRules.report[error.Line].Split(';')[error.Column]}.");
+            Console.WriteLine($"{error.Justification}");
+        }
+    }
 }
