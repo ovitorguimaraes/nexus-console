@@ -37,16 +37,19 @@ class NFe
                 double icmsValue = 0;
                 double pisValue = 0;
                 double cofinsValue = 0;
+                decimal totalWithholdingValue = 0;
 
                 foreach(XElement prod in xml.Descendants(ns + "prod"))
                 {
                     Product product = new Product()
                     {
                         Ncm = prod.Element(ns + "NCM")!.Value,
-                        Value = double.Parse(prod.Element(ns + "vProd")!.Value)
+                        Value = decimal.Parse(prod.Element(ns + "vProd")!.Value)
                     };
 
                     products.Add(product);
+
+                    totalWithholdingValue += NFeRules.WithholdingVerification(product);
                 }
 
                 foreach (Account account in TaxRules.accounts)
@@ -88,7 +91,7 @@ class NFe
                     "cfop entrada", // ! <- <- <-
                     totalProductValue.ToString(),
                     xml.Descendants(ns + "vNF").First().Value,
-                    "amountToPay", // ! REQUIRES THE IsPisCofinsWithholdingRequired FUNCTION
+                    (decimal.Parse(xml.Descendants(ns + "vNF").First().Value) - totalWithholdingValue).ToString(), // ! check values in XML
                     ipiValue.ToString(),
                     icmsValue.ToString(),
                     pisValue.ToString(),
@@ -148,11 +151,7 @@ class NFe
     }
 }
 
-class Product
-{
-    public required string Ncm { get; set; }
-    public double Value {get; set;}
-}
+
 class Error
 {
     public int Line {get; set; }
@@ -160,22 +159,3 @@ class Error
     public required string Justification { get; set; }
 }
 
-class WithholdingNcm
-{
-    public required string Ncm { get; set; }
-    public bool HasException {get; set; }
-    public string? Exception {get; set;}
-
-    public WithholdingNcm(string ncm, bool hasException, string? exception)
-    {
-        if(hasException && string.IsNullOrWhiteSpace(exception))
-            throw new ArgumentException(
-                "Exception description is required when HasException is true.",
-                nameof(exception)
-            );
-
-        Ncm = ncm;
-        HasException = hasException;
-        Exception = exception;
-    }
-}
