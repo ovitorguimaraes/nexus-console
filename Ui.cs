@@ -175,8 +175,9 @@ class Ui
         Console.WriteLine($"DESCRITIVO DE ERROS: ");
         foreach(Error error in errors)
         {
-            Console.WriteLine($"Erro encontrada na linha {error.Line.ToString()}, valor incorreto: {NFeRules.report[error.Line].Split(';')[error.Column]}.");
+            Console.WriteLine($"Erro encontrada na linha {error.Line.ToString()}, valor incorreto de {error.ColumnName}: {NFeRules.report[error.Line].Split(';')[error.Column]}.");
             Console.WriteLine($"{error.Justification}");
+            Console.WriteLine();
         }
 
         Console.ReadKey();

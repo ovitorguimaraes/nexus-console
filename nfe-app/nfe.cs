@@ -1,3 +1,5 @@
+using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 using Nexus.UI;
 class NFe
@@ -31,8 +33,8 @@ class NFe
         invoice = xmls.Where(xml => xml.Descendants(ns + "nNF").First().Value == csvInvoiceNumber && xml.Descendants(ns + "CNPJ").First().Value == csvSupplierCnpj)
         .Select(xml =>
             {
-                double totalProductValue =
-                double.Parse(xml.Descendants(ns + "ICMSTot").First().Element(ns + "vProd")!.Value);
+                decimal totalProductValue =
+                decimal.Parse(xml.Descendants(ns + "ICMSTot").First().Element(ns + "vProd")!.Value, CultureInfo.InvariantCulture);
 
                 string ipiValue = "0";
                 string icmsValue = "0";
@@ -74,8 +76,8 @@ class NFe
 
                     if (account.PisCofins)
                     {
-                        pisValue = ((totalProductValue - double.Parse(icmsValue)) * 0.0165).ToString();
-                        cofinsValue = ((totalProductValue - double.Parse(icmsValue)) * 0.0760).ToString();
+                        pisValue = ((totalProductValue - decimal.Parse(icmsValue, CultureInfo.InvariantCulture)) * 0.0165m).ToString("F2", CultureInfo.InvariantCulture);
+                        cofinsValue = ((totalProductValue - decimal.Parse(icmsValue, CultureInfo.InvariantCulture)) * 0.0760m).ToString("F2", CultureInfo.InvariantCulture);
                     }
 
                     break;
@@ -90,9 +92,9 @@ class NFe
                         + xml.Descendants(ns + "dhEmi").First().Value.Substring(5, 2) + "/" 
                         + xml.Descendants(ns + "dhEmi").First().Value.Substring(0, 4),
                     xml.Descendants(ns + "CFOP").First().Value,
-                    totalProductValue.ToString(),
+                    DataFormate(totalProductValue.ToString()),
                     xml.Descendants(ns + "vNF").First().Value,
-                    (decimal.Parse(xml.Descendants(ns + "vNF").First().Value) - totalWithholdingValue).ToString(), 
+                    (decimal.Parse(xml.Descendants(ns + "vNF").First().Value, CultureInfo.InvariantCulture) - totalWithholdingValue).ToString(), 
                     ipiValue,
                     icmsValue,
                     pisValue,
@@ -133,10 +135,10 @@ class NFe
 
         for(int i = 0; i < invoice!.Length; i++)
         {
-            if(invoice[i] != "" && invoice[i] != NFeRules.report[invoicePosition].Split(';')[i])
+            if(invoice[i] != "" && DataFormate(invoice[i]) != DataFormate(NFeRules.report[invoicePosition].Split(';')[i]))
             {
                 checkControl++;
-                errors.Add(new Error{Line = invoicePosition, Column = i, Justification = $"Informação correta da NFe: {invoice[i]}"});
+                errors.Add(new Error{Line = invoicePosition, Column = i, ColumnName = NFeRules.report[0].Split(';')[i], Justification = $"Informação correta da NFe: {invoice[i]}"});
             }
             
             else
@@ -148,6 +150,16 @@ class NFe
 
         Ui.NFeApp(checkControl, errors);
     }
+
+    public static string DataFormate(string data)
+    {
+        if(data.EndsWith(",00") || data.EndsWith(".00"))
+        {
+            return data.Substring(0, data.Length - 3);
+        }
+
+        return data;
+    }
 }
 
 
@@ -155,6 +167,7 @@ class Error
 {
     public int Line {get; set; }
     public int Column { get; set; }
+    public required string ColumnName { get; set; }
     public required string Justification { get; set; }
 }
 
