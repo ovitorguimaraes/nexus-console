@@ -1,7 +1,7 @@
 using System.Xml.Linq;
 class NFe
 {
-    #region invoiceValues
+    #region invoicePisCofinsWithholding
     public static List<Product> products = new List<Product>();
     #endregion
     #region checkReport
@@ -30,7 +30,7 @@ class NFe
         .Select(xml =>
             {
                 double totalProductValue =
-                double.Parse(xml.Descendants(ns + "vProd").First().Value);
+                double.Parse(xml.Descendants(ns + "ICMSTot").First().Element(ns + "vProd")!.Value);
 
                 double ipiValue = 0;
                 double icmsValue = 0;
@@ -84,14 +84,16 @@ class NFe
                     xml.Descendants(ns + "dhEmi").First().Value.Substring(8, 2).ToString() + "/" 
                         + xml.Descendants(ns + "dhEmi").First().Value.Substring(5, 2) + "/" 
                         + xml.Descendants(ns + "dhEmi").First().Value.Substring(0, 4),
-                    "cfop entrada", // <-
+                    "cfop entrada", // ! <- <- <-
                     totalProductValue.ToString(),
+                    xml.Descendants(ns + "vNF").First().Value,
+                    "amountToPay", // ! REQUIRES THE IsPisCofinsWithholdingRequired FUNCTION
                     ipiValue.ToString(),
                     icmsValue.ToString(),
                     pisValue.ToString(),
                     cofinsValue.ToString(),
-                    "account", // <-
-                    "cost center", // <-
+                    "account", // ! <- <- <-
+                    "cost center", // ! <- <- <-
                 };
             })
             .FirstOrDefault();
