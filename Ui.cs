@@ -170,6 +170,7 @@ class Ui
     public static void NFeApp(int checkedLines, List<Error> errors)
     {
         Console.WriteLine($"DADOS VALIDADOS: {checkedLines} ");
+        // ! <- LINHAS SEM XML 
         Console.WriteLine($"ERROS ENCONTRADOS EM: {errors.Count} CÉLULAS DO RELATÓRIO");
         Console.WriteLine($"DESCRITIVO DE ERROS: ");
         foreach(Error error in errors)

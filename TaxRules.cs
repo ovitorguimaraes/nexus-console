@@ -1,5 +1,31 @@
 class TaxRules
 {
+    public static MaterialCause[] causes =
+    {
+        new MaterialCause
+        {
+            Code = "01",
+            Description = "Estoque"
+        },
+
+        new MaterialCause
+        {
+            Code = "02",
+            Description = "Industrialização para Estoque"
+        },
+
+        new MaterialCause
+        {
+            Code = "22",
+            Description = "Retorno de Industrialização para Estoque"
+        },
+
+        new MaterialCause
+        {
+            Code = "10",
+            Description = "Diverso"
+        },
+    };
     public static List<Account> accounts = new List<Account>
     {
         new Account
@@ -32,40 +58,13 @@ class TaxRules
             PisCofins = true,
         }
     };
-
-    public static MaterialCause[] causes =
-    {
-        new MaterialCause
-        {
-            Code = "01",
-            Description = "Estoque"
-        },
-
-        new MaterialCause
-        {
-            Code = "02",
-            Description = "Industrialização para Estoque"
-        },
-
-        new MaterialCause
-        {
-            Code = "22",
-            Description = "Retorno de Industrialização para Estoque"
-        },
-
-        new MaterialCause
-        {
-            Code = "10",
-            Description = "Diverso"
-        },
-    };
 }
 
 class Account
 {
-    public string Number;
-    public string Description;
-    public MaterialCause Cause;
+    public required string Number;
+    public required string Description;
+    public required MaterialCause Cause;
     public bool Ipi;
     public bool Icms;
     public bool PisCofins;
@@ -73,6 +72,6 @@ class Account
 
 class MaterialCause
 {
-    public string Code;
-    public string Description;
+    public required string Code;
+    public required string Description;
 }
