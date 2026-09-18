@@ -11,7 +11,7 @@ class NFe
     #region checkReport
     public static string[]? invoice;
     public static int checkControl;
-    public static int xmlNotFound;
+    public static List<int> xmlNotFound = new List<int>();
     public static int ok;
     public static List<Error> errors = new List<Error>();
     #endregion
@@ -20,7 +20,7 @@ class NFe
     public static XNamespace ns = "http://www.portalfiscal.inf.br/nfe";
     public static List<XDocument> xmls = new List<XDocument>();
     #endregion
-    public static void ProcessNFe(string csvInvoiceNumber, string csvSupplierCnpj, string csvAccount, string csvCostCenter)
+    public static void ProcessNFe(string csvInvoiceNumber, string csvSupplierCnpj, string csvAccount, string csvCostCenter, int linePosition)
     {
         ClearNFe();
 
@@ -111,7 +111,7 @@ class NFe
         else
         {
             checkControl++;
-            xmlNotFound++;
+            xmlNotFound.Add(linePosition);
         }
     }
 
@@ -133,22 +133,27 @@ class NFe
             return columns[1].Trim() == invoice![1] && columns[2].Trim() == invoice![2];
         });
 
+        bool hasError = false;
+
         for(int i = 0; i < invoice!.Length; i++)
         {
             if(invoice[i] != "" && DataFormate(invoice[i]) != DataFormate(NFeRules.report[invoicePosition].Split(';')[i]))
             {
                 checkControl++;
+                hasError = true;
                 errors.Add(new Error{Line = invoicePosition, Column = i, ColumnName = NFeRules.report[0].Split(';')[i], Justification = $"Informação correta da NFe: {invoice[i]}"});
             }
             
             else
             {
                 checkControl++;
-                ok++;
             }
         }
 
-        Ui.NFeApp(checkControl, xmlNotFound, errors);
+        if(!hasError)
+            ok++;
+
+        Ui.NFeApp(ok, xmlNotFound, errors);
     }
 
     public static string DataFormate(string data)

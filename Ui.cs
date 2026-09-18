@@ -167,36 +167,89 @@ class Ui
         Border();
     }
 
-    public static void NFeApp(int checkedLines, int xmlNotFound,List<Error> errors)
+    public static void NFeApp(int checkedLines, List<int> xmlNotFound, List<Error> errors)
     {
-        AnsiConsole.Write(
-            new Markup($"[green]{checkedLines}[/] [bold green]DADOS VALIDADOS[/] EM {1} LINHAS")
-        );
-
-        Console.Write(" | ");
+        List<int> errorLines = errors.Select(error => error.Line).Distinct().ToList();
 
         AnsiConsole.Write(
-            new Markup($"[bold yellow]LINHAS SEM VALIDAÇÃ0:[/] [yellow]{xmlNotFound - 1}[/]") 
-        // ! <- LINHAS SEM XML 
-        );
-
-        Console.Write(" | ");
-
-        AnsiConsole.Write(
-            new Markup($"[bold red]ERROS ENCONTRADOS EM[/] [red]{errors.Count} VALORES[/]")
+            new BreakdownChart()
+            .AddItem("Documentos validados", checkedLines, Color.Green)
+            .AddItem("Documentos com erros", errorLines.Count, Color.Red)
+            .AddItem("Documentos não encontrados", xmlNotFound.Count, Color.Yellow)
         );
 
         Console.WriteLine();
+        AnsiConsole.Write(
+            new Markup("[bold red]RELAÇÃO DE NOTAS FISCAIS ESCRITURADAS COM ERROS[/]")
+        );
         Console.WriteLine();
-        Console.WriteLine($"ERROS ENCONTRADOS EM: {errors.Count} CÉLULAS DO RELATÓRIO");
-        Console.WriteLine($"DESCRITIVO DE ERROS: ");
-        foreach(Error error in errors)
+
+        Table reportErrors = new Table()
+            .BorderColor(Color.Red)
+            .AddColumn("[bold grey]SERIE[/]")
+            .AddColumn("[bold grey]NÚMERO[/]")
+            .AddColumn("[bold grey]CNPJ FORNECEDOR[/]")
+            .AddColumn("[bold grey]DATA EMISSÃO[/]")
+            .AddColumn("[bold grey]CFOP ENTRADA[/]")
+            .AddColumn("[bold grey]VALOR DOS PRODUTOS[/]")
+            .AddColumn("[bold grey]VALOR TOTAL DA NOTA[/]")
+            .AddColumn("[bold grey]VALOR A PAGAR[/]")
+            .AddColumn("[bold grey]VALOR IPI[/]")
+            .AddColumn("[bold grey]VALOR ICMS[/]")
+            .AddColumn("[bold grey]VALOR PIS[/]")
+            .AddColumn("[bold grey]VALOR COFINS[/]")
+            .AddColumn("[bold grey]CONTA CONTÁBIL[/]")
+            .AddColumn("[bold grey]CENTRO DE CUSTO[/]");
+        
+        foreach (int line in errorLines)
         {
-            Console.WriteLine($"Erro encontrada na linha {error.Line.ToString()}, valor incorreto de {error.ColumnName}: {NFeRules.report[error.Line].Split(';')[error.Column]}.");
-            Console.WriteLine($"{error.Justification}");
-            Console.WriteLine();
+            string[] columns = NFeRules.report[line].Split(';');
+
+            foreach (Error error in errors.Where(error => error.Line == line))
+            {
+                columns[error.Column] =
+                    $"[bold red1]{Markup.Escape(columns[error.Column])}[/]";
+            }
+
+            reportErrors.AddRow(columns);
+        }
+        
+        AnsiConsole.Write(reportErrors);
+
+        Console.WriteLine();
+        AnsiConsole.Write(
+            new Markup("[bold yellow]RELAÇÃO DE NOTAS FISCAIS EM QUE O DOCUMENTO XML NÃO FOI ENCONTRADO[/]")
+        );
+        Console.WriteLine();
+
+        Table reportNotFounds = new Table()
+            .BorderColor(Color.Yellow)
+            .AddColumn("[bold]SERIE[/]")
+            .AddColumn("[bold]NÚMERO[/]")
+            .AddColumn("[bold]CNPJ FORNECEDOR[/]")
+            .AddColumn("[bold]DATA EMISSÃO[/]")
+            .AddColumn("[bold]CFOP ENTRADA[/]")
+            .AddColumn("[bold]VALOR DOS PRODUTOS[/]")
+            .AddColumn("[bold]VALOR TOTAL DA NOTA[/]")
+            .AddColumn("[bold]VALOR A PAGAR[/]")
+            .AddColumn("[bold]VALOR IPI[/]")
+            .AddColumn("[bold]VALOR ICMS[/]")
+            .AddColumn("[bold]VALOR PIS[/]")
+            .AddColumn("[bold]VALOR COFINS[/]")
+            .AddColumn("[bold]CONTA CONTÁBIL[/]")
+            .AddColumn("[bold]CENTRO DE CUSTO[/]");
+
+        foreach (int line in xmlNotFound)
+        {
+            string[] columns = NFeRules.report[line].Split(';');
+
+            reportNotFounds.AddRow(columns);
         }
 
+        AnsiConsole.Write(reportNotFounds);
+
         Console.ReadKey();
+
+        Environment.Exit(0);
     }
 }

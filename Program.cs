@@ -21,10 +21,10 @@ class Program
         switch (Menu())
         {
             case "Run NFe App":
-                foreach(string reportLine in File.ReadAllLines("reportNFe.csv"))
+                foreach(var lineData in File.ReadAllLines("reportNFe.csv").Skip(1).Select((reportLine, index) => new { reportLine, index }))
                 {
-                    string[] columns = reportLine.Split(";");
-                    NFe.ProcessNFe(columns[1], columns[2], columns[12], columns[13]);
+                    string[] columns = lineData.reportLine.Split(";");
+                    NFe.ProcessNFe(columns[1], columns[2], columns[12], columns[13], lineData.index + 1);
                 }
                     break;
 
