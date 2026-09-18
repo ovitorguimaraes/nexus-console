@@ -7,6 +7,9 @@ class Program
     public static string password = "1234";
     static void Main(string[] args)
     {
+        if(args.Length != 0 && args[0] == "test")
+            Test.Tests();
+
         Ui.SplashScreen();
 
         Ui.AppUi("clear", "");
