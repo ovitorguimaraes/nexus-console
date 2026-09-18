@@ -152,8 +152,6 @@ class NFe
 
         if(!hasError)
             ok++;
-
-        Ui.NFeApp(ok, xmlNotFound, errors);
     }
 
     public static string DataFormate(string data)

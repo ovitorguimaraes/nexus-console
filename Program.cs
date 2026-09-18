@@ -26,6 +26,7 @@ class Program
                     string[] columns = lineData.reportLine.Split(";");
                     NFe.ProcessNFe(columns[1], columns[2], columns[12], columns[13], lineData.index + 1);
                 }
+                Ui.NFeApp(NFe.ok, NFe.xmlNotFound, NFe.errors);
                     break;
 
             case "Run CTe App":
