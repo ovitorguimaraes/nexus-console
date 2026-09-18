@@ -148,7 +148,7 @@ class NFe
             }
         }
 
-        Ui.NFeApp(checkControl, errors);
+        Ui.NFeApp(checkControl, xmlNotFound, errors);
     }
 
     public static string DataFormate(string data)

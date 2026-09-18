@@ -167,10 +167,27 @@ class Ui
         Border();
     }
 
-    public static void NFeApp(int checkedLines, List<Error> errors)
+    public static void NFeApp(int checkedLines, int xmlNotFound,List<Error> errors)
     {
-        Console.WriteLine($"DADOS VALIDADOS: {checkedLines} ");
+        AnsiConsole.Write(
+            new Markup($"[green]{checkedLines}[/] [bold green]DADOS VALIDADOS[/] EM {1} LINHAS")
+        );
+
+        Console.Write(" | ");
+
+        AnsiConsole.Write(
+            new Markup($"[bold yellow]LINHAS SEM VALIDAÇÃ0:[/] [yellow]{xmlNotFound - 1}[/]") 
         // ! <- LINHAS SEM XML 
+        );
+
+        Console.Write(" | ");
+
+        AnsiConsole.Write(
+            new Markup($"[bold red]ERROS ENCONTRADOS EM[/] [red]{errors.Count} VALORES[/]")
+        );
+
+        Console.WriteLine();
+        Console.WriteLine();
         Console.WriteLine($"ERROS ENCONTRADOS EM: {errors.Count} CÉLULAS DO RELATÓRIO");
         Console.WriteLine($"DESCRITIVO DE ERROS: ");
         foreach(Error error in errors)
