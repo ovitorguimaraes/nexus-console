@@ -117,42 +117,54 @@ class Ui
         }
     }
 
-    static void Border()
+static void Border()
+{
+    int currentLeft = Console.CursorLeft;
+    int currentTop = Console.CursorTop;
+
+    int width = Console.WindowWidth;
+    int height = Console.WindowHeight;
+
+    // Desativa quebra automática de linha
+    Console.Write("\x1b[?7l");
+
+    Console.SetCursorPosition(0, 0);
+    Console.Write("╔");
+
+    Console.SetCursorPosition(width - 1, 0);
+    Console.Write("╗");
+
+    Console.SetCursorPosition(0, height - 1);
+    Console.Write("╚");
+
+    Console.SetCursorPosition(width - 1, height - 1);
+    Console.Write("╝");
+
+    for (int i = 1; i < width - 1; i++)
     {
-        int width = Console.WindowWidth;
-        int height = Console.WindowHeight;
+        Console.SetCursorPosition(i, 0);
+        Console.Write("═");
 
-        Console.SetCursorPosition(0, 0);
-        Console.Write("╔");
-
-        Console.SetCursorPosition(width - 1, 0);
-        Console.Write("╗");
-
-        Console.SetCursorPosition(0, height - 1);
-        Console.Write("╚");
-
-        Console.SetCursorPosition(width - 1, height - 1);
-        Console.Write("╝");
-
-        for (int i = 1; i < width - 1; i++)
-        {
-            Console.SetCursorPosition(i, 0);
-            Console.Write("═");
-
-            Console.SetCursorPosition(i, height - 1);
-            Console.Write("═");
-        }
-
-        for (int i = 1; i < height - 1; i++)
-        {
-            Console.SetCursorPosition(0, i);
-            Console.Write("║");
-
-            Console.SetCursorPosition(width - 1, i);
-            Console.Write("║");
-        }
-        Console.Write("\x1b[0m");
+        Console.SetCursorPosition(i, height - 1);
+        Console.Write("═");
     }
+
+    for (int i = 1; i < height - 1; i++)
+    {
+        Console.SetCursorPosition(0, i);
+        Console.Write("║");
+
+        Console.SetCursorPosition(width - 1, i);
+        Console.Write("║");
+    }
+
+    // Reativa quebra automática
+    Console.Write("\x1b[?7h");
+
+    Console.SetCursorPosition(currentLeft, currentTop);
+
+    Console.Write("\x1b[0m");
+}
 
     public static void AppUi(string clear, string color)
     {
@@ -169,37 +181,50 @@ class Ui
 
     public static void NFeApp(int checkedLines, List<int> xmlNotFound, List<Error> errors)
     {
+        int width = AnsiConsole.Profile.Width - 6;
         List<int> errorLines = errors.Select(error => error.Line).Distinct().ToList();
+        
+        Console.SetCursorPosition(0, 9);
 
         AnsiConsole.Write(
-            new BreakdownChart()
-            .AddItem("Documentos validados", checkedLines, Color.Green)
-            .AddItem("Documentos com erros", errorLines.Count, Color.Red)
-            .AddItem("Documentos não encontrados", xmlNotFound.Count, Color.Yellow)
+            new Markup("[bold]RESULTADOS DAS VALIDAÇÕES[/]")
+            .Centered()
         );
 
+        var summary = new BreakdownChart()
+                .AddItem("Documentos validados", checkedLines, Color.Green)
+                .AddItem("Documentos com erros", errorLines.Count, Color.Red)
+                .AddItem("Documentos não encontrados", xmlNotFound.Count, Color.Yellow);
+        
+        var paddedSummary = new Padder(summary)
+            .PadLeft(3)
+            .PadRight(3);
+
+        Console.SetCursorPosition(3, 10);
+        AnsiConsole.Write(paddedSummary);
+
         Console.WriteLine();
+        Console.SetCursorPosition(3, Console.CursorTop);
         AnsiConsole.Write(
             new Markup("[bold red]RELAÇÃO DE NOTAS FISCAIS ESCRITURADAS COM ERROS[/]")
         );
-        Console.WriteLine();
 
         Table reportErrors = new Table()
             .BorderColor(Color.Red)
-            .AddColumn("[bold grey]SERIE[/]")
-            .AddColumn("[bold grey]NÚMERO[/]")
-            .AddColumn("[bold grey]CNPJ FORNECEDOR[/]")
-            .AddColumn("[bold grey]DATA EMISSÃO[/]")
-            .AddColumn("[bold grey]CFOP ENTRADA[/]")
-            .AddColumn("[bold grey]VALOR DOS PRODUTOS[/]")
-            .AddColumn("[bold grey]VALOR TOTAL DA NOTA[/]")
-            .AddColumn("[bold grey]VALOR A PAGAR[/]")
-            .AddColumn("[bold grey]VALOR IPI[/]")
-            .AddColumn("[bold grey]VALOR ICMS[/]")
-            .AddColumn("[bold grey]VALOR PIS[/]")
-            .AddColumn("[bold grey]VALOR COFINS[/]")
-            .AddColumn("[bold grey]CONTA CONTÁBIL[/]")
-            .AddColumn("[bold grey]CENTRO DE CUSTO[/]");
+            .AddColumn("[bold]SERIE[/]")
+            .AddColumn("[bold]NÚMERO[/]")
+            .AddColumn("[bold]CNPJ FORNECEDOR[/]")
+            .AddColumn("[bold]DATA EMISSÃO[/]")
+            .AddColumn("[bold]CFOP ENTRADA[/]")
+            .AddColumn("[bold]VALOR DOS PRODUTOS[/]")
+            .AddColumn("[bold]VALOR TOTAL DA NOTA[/]")
+            .AddColumn("[bold]VALOR A PAGAR[/]")
+            .AddColumn("[bold]VALOR IPI[/]")
+            .AddColumn("[bold]VALOR ICMS[/]")
+            .AddColumn("[bold]VALOR PIS[/]")
+            .AddColumn("[bold]VALOR COFINS[/]")
+            .AddColumn("[bold]CONTA CONTÁBIL[/]") 
+            .AddColumn("[bold]CENTRO DE CUSTO[/]");
         
         foreach (int line in errorLines)
         {
@@ -214,13 +239,18 @@ class Ui
             reportErrors.AddRow(columns);
         }
         
-        AnsiConsole.Write(reportErrors);
+
+        var reportErrosPadded = new Padder(reportErrors)
+        .PadLeft(3)
+        .PadRight(3);   
+
+        AnsiConsole.Write(reportErrosPadded);
 
         Console.WriteLine();
+        Console.SetCursorPosition(3, Console.CursorTop);
         AnsiConsole.Write(
             new Markup("[bold yellow]RELAÇÃO DE NOTAS FISCAIS EM QUE O DOCUMENTO XML NÃO FOI ENCONTRADO[/]")
         );
-        Console.WriteLine();
 
         Table reportNotFounds = new Table()
             .BorderColor(Color.Yellow)
@@ -246,10 +276,18 @@ class Ui
             reportNotFounds.AddRow(columns);
         }
 
-        AnsiConsole.Write(reportNotFounds);
+        var reportNotFoundsPadded = new Padder(reportNotFounds)
+        .PadLeft(3)
+        .PadRight(3);
 
+        AnsiConsole.Write(reportNotFoundsPadded);
+        
+        Console.Write("\x1b[38;2;73;128;203m");
+        Border();
+        Console.ResetColor();
+
+        Console.CursorVisible = false;
         Console.ReadKey();
-
         Environment.Exit(0);
     }
 }
