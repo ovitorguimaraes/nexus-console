@@ -55,7 +55,7 @@ class NFe
                     totalWithholdingValue += NFeRules.WithholdingVerification(product);
                 }
 
-                foreach (Account account in TaxRules.accounts)
+                foreach (Account account in TaxRules.Accounts)
                 {
                     if (account.Number != csvAccount)
                     {

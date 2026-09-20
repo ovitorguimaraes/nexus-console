@@ -1,6 +1,6 @@
 class TaxRules
 {
-    public static AccountCause[] causes =
+    private static AccountCause[] _causes = 
     {
         new AccountCause("01", "Estoque"),
         new AccountCause("02", "Industrialização para Estoque"),
@@ -8,30 +8,45 @@ class TaxRules
         new AccountCause("10", "Diverso"),
         new AccountCause("00", "Impostos"),
     };
-    public static List<Account> accounts = new List<Account> 
+    private static List<Account> _accounts = new List<Account> 
     {
-        new Account("110101", "IPI a recuperar", causes[4], false, null, false, null, false, null, null),
-        new Account("110102", "ICMS a recuperar", causes[4], false, null, false, null, false, null, null),
-        new Account("110103", "PIS a recuperar", causes[4], false, null, false, null, false, null, null),
-        new Account("110104", "COFINS a recuperar", causes[4], false, null, false, null, false, null, null)
+        new Account("111103", "IPI a recuperar - Estoque", _causes[4], false, null, false, null, false, null, null),
+        new Account("112103", "ICMS a recuperar - Estoque", _causes[4], false, null, false, null, false, null, null),
+        new Account("113103", "PIS a recuperar - Estoque", _causes[4], false, null, false, null, false, null, null),
+        new Account("114103", "COFINS a recuperar - Estoque", _causes[4], false, null, false, null, false, null, null),
+        new Account("213103", "PIS retido a recolher", _causes[4], false, null, false, null, false, null, null),
+        new Account("214103", "COFINS retida a recolher", _causes[4], false, null, false, null, false, null, null)
     };
 
-    public static void CreateAccounts()
+    public static IReadOnlyList<Account> Accounts
     {
-        accounts.Add(new Account("310101", "Estoque - Linha produtiva 01", causes[0], 
-        true, accounts![0], 
-        true, accounts![1], 
-        true, accounts![2], accounts![3]));
+        get
+        {
+            return _accounts;
+        }
+    }
 
-        accounts.Add(new Account("310102", "Estoque - Linha produtiva 02", causes[0], 
-        true, accounts![0], 
-        true, accounts![1], 
-        true, accounts![2], accounts![3]));
+    static void CreateAccounts()
+    {
+        _accounts.Add(new Account("310101", "Estoque - Linha produtiva 01", _causes[0], 
+        true, _accounts[0], 
+        true, _accounts[1], 
+        true, _accounts[2], _accounts[3]));
 
-        accounts.Add(new Account("310103", "Estoque - Linha produtiva 03", causes[0], 
-        true, accounts![0], 
-        true, accounts![1], 
-        true, accounts![2], accounts![3]));
+        _accounts.Add(new Account("310201", "Estoque - Linha produtiva 02", _causes[0], 
+        true, _accounts[0], 
+        true, _accounts[1], 
+        true, _accounts[2], _accounts[3]));
+
+        _accounts.Add(new Account("310301", "Estoque - Linha produtiva 03", _causes[0], 
+        true, _accounts[0], 
+        true, _accounts[1], 
+        true, _accounts[2], _accounts[3]));
+    }
+
+    static TaxRules()
+    {
+        CreateAccounts();
     }
 }
 
@@ -83,8 +98,7 @@ class Account
         if(pisCofins && (pisAccount == null || cofinsAccount == null))
         {
             throw new ArgumentException(
-                "PIS and COFINS accounts are required when PIS/COFINS credit is allowed.", 
-                nameof(ipiAccount)
+                "PIS and COFINS accounts are required when PIS/COFINS credit is allowed."
             );
         }
 
