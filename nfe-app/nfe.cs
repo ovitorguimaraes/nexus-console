@@ -6,7 +6,6 @@ class NFe
 {
     #region invoicePisCofinsWithholding
     public static List<Product> products = new List<Product>();
-    public static List<WithholdingNcm> withholdingNcms = new List<WithholdingNcm>();
     #endregion
     #region checkReport
     public static string[]? invoice;
@@ -47,7 +46,7 @@ class NFe
                     Product product = new Product()
                     {
                         Ncm = prod.Element(ns + "NCM")!.Value,
-                        Value = decimal.Parse(prod.Element(ns + "vProd")!.Value)
+                        Value = decimal.Parse(prod.Element(ns + "vProd")!.Value, CultureInfo.InvariantCulture)
                     };
 
                     products.Add(product);
@@ -92,9 +91,9 @@ class NFe
                         + xml.Descendants(ns + "dhEmi").First().Value.Substring(5, 2) + "/" 
                         + xml.Descendants(ns + "dhEmi").First().Value.Substring(0, 4),
                     xml.Descendants(ns + "CFOP").First().Value,
-                    DataFormate(totalProductValue.ToString()),
+                    DataFormate(totalProductValue.ToString(CultureInfo.InvariantCulture)),
                     xml.Descendants(ns + "vNF").First().Value,
-                    (decimal.Parse(xml.Descendants(ns + "vNF").First().Value, CultureInfo.InvariantCulture) - totalWithholdingValue).ToString(), 
+                    (decimal.Parse(xml.Descendants(ns + "vNF").First().Value, CultureInfo.InvariantCulture) - totalWithholdingValue).ToString("F2", CultureInfo.InvariantCulture), 
                     ipiValue,
                     icmsValue,
                     pisValue,
