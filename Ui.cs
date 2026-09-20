@@ -203,12 +203,6 @@ static void Border()
         Console.SetCursorPosition(3, 10);
         AnsiConsole.Write(paddedSummary);
 
-        Console.WriteLine();
-        Console.SetCursorPosition(3, Console.CursorTop);
-        AnsiConsole.Write(
-            new Markup("[bold red]RELAÇÃO DE NOTAS FISCAIS ESCRITURADAS COM ERROS[/]")
-        );
-
         Table reportErrors = new Table()
             .BorderColor(Color.Red)
             .AddColumn("[bold]SERIE[/]")
@@ -243,14 +237,15 @@ static void Border()
         var reportErrosPadded = new Padder(reportErrors)
         .PadLeft(3)
         .PadRight(3);   
-
-        AnsiConsole.Write(reportErrosPadded);
-
-        Console.WriteLine();
-        Console.SetCursorPosition(3, Console.CursorTop);
-        AnsiConsole.Write(
-            new Markup("[bold yellow]RELAÇÃO DE NOTAS FISCAIS EM QUE O DOCUMENTO XML NÃO FOI ENCONTRADO[/]")
-        );
+        if(errorLines.Count > 0)
+        {
+            Console.WriteLine();
+            Console.SetCursorPosition(3, Console.CursorTop);
+            AnsiConsole.Write(
+                new Markup("[bold red]RELAÇÃO DE NOTAS FISCAIS ESCRITURADAS COM ERROS[/]")
+            );
+            AnsiConsole.Write(reportErrosPadded);
+        }
 
         Table reportNotFounds = new Table()
             .BorderColor(Color.Yellow)
@@ -280,7 +275,15 @@ static void Border()
         .PadLeft(3)
         .PadRight(3);
 
-        AnsiConsole.Write(reportNotFoundsPadded);
+        if(xmlNotFound.Count > 0)
+        {
+            Console.WriteLine();
+            Console.SetCursorPosition(3, Console.CursorTop);
+            AnsiConsole.Write(
+                new Markup("[bold yellow]RELAÇÃO DE NOTAS FISCAIS EM QUE O DOCUMENTO XML NÃO FOI ENCONTRADO[/]")
+            );
+            AnsiConsole.Write(reportNotFoundsPadded);
+        }
         
         Console.Write("\x1b[38;2;73;128;203m");
         Border();
