@@ -161,7 +161,7 @@ class NFeRules
 
     public static decimal WithholdingVerification(Product product)
     {
-        if(WithholdingNcms.Any(ncm => ncm.Ncm == product.Ncm))
+        if(WithholdingNcms.Any(ncm => ncm.Ncm.Replace(".", "") == product.Ncm.Replace(".", "").Substring(0, ncm.Ncm.Replace(".", "").Length)))
         {
             return product.Value * 0.006m;
         }
