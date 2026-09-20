@@ -236,10 +236,12 @@ static void Border()
 
         var reportErrosPadded = new Padder(reportErrors)
         .PadLeft(3)
-        .PadRight(3);   
+        .PadRight(3); 
+
+        Console.WriteLine();
+
         if(errorLines.Count > 0)
         {
-            Console.WriteLine();
             Console.SetCursorPosition(3, Console.CursorTop);
             AnsiConsole.Write(
                 new Markup("[bold red]RELAÇÃO DE NOTAS FISCAIS ESCRITURADAS COM ERROS[/]")
@@ -277,12 +279,18 @@ static void Border()
 
         if(xmlNotFound.Count > 0)
         {
-            Console.WriteLine();
             Console.SetCursorPosition(3, Console.CursorTop);
             AnsiConsole.Write(
                 new Markup("[bold yellow]RELAÇÃO DE NOTAS FISCAIS EM QUE O DOCUMENTO XML NÃO FOI ENCONTRADO[/]")
             );
             AnsiConsole.Write(reportNotFoundsPadded);
+        }
+
+        if(xmlNotFound.Count == 0 && errorLines.Count == 0)
+        {
+            AnsiConsole.Write(
+                new Markup("[bold green]SEM DIVERGÊNCIAS ENCONTRADAS![/]")
+            );
         }
         
         Console.Write("\x1b[38;2;73;128;203m");
