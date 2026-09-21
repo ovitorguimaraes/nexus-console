@@ -59,6 +59,7 @@ class NFeRules
 
         // ANEXO II - Lei 10.485/2002
         // Condições de destinação/aplicação.
+        // * Nessa aplicação, todas as NCMs listadas nos anexos serão tratadas como sujeitas à retenção de PIS e COFINS, independentemente das condições específicas de destinação ou aplicação previstas no anexo.
 
         new WithholdingNcm(
             "40.09",

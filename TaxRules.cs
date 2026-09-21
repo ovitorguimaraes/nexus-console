@@ -48,6 +48,21 @@ class TaxRules
     {
         CreateAccounts();
     }
+
+    private static List<Transaction> _transactions = new List<Transaction>();
+
+    public static IReadOnlyList<Transaction> Transactions
+    {
+        get
+        {
+            return _transactions;
+        }
+    }
+
+    public static void NewTransaction(Transaction transaction)
+    {
+        _transactions.Add(transaction);
+    }
 }
 
 class Account
@@ -132,5 +147,21 @@ class AccountCause
 
         Code = code;
         Description = description;
+    }
+}
+
+class Transaction
+{
+    public Account Account { get; }
+    public decimal Value { get; }
+    public string User { get; }
+    public string Date { get; }
+
+    public Transaction(Account account, decimal value, string user, string date)
+    {
+        Account = account;
+        Value = value;
+        User = user;
+        Date = date;
     }
 }
