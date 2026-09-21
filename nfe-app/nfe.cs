@@ -151,6 +151,16 @@ class NFe
 
         if(!hasError)
             ok++;
+
+        Account principalAccount = null!;
+
+        foreach(Account account in TaxRules.Accounts)
+        {
+            if(account.Number == invoice[12])
+                principalAccount = account;
+        }
+
+        TaxRules.NewTransaction(new Transaction(principalAccount, decimal.Parse(invoice[5]) - decimal.Parse(invoice[8]) - decimal.Parse(invoice[9]) - decimal.Parse(invoice[10]), "BVITOR", "xx/xx/xxxx"));
     }
 
     public static string DataFormate(string data)
