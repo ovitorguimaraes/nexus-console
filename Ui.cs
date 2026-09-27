@@ -158,7 +158,6 @@ static void Border()
         Console.Write("║");
     }
 
-    // Reativa quebra automática
     Console.Write("\x1b[?7h");
 
     Console.SetCursorPosition(currentLeft, currentTop);
