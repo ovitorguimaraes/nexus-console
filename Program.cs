@@ -3,8 +3,6 @@ using Nexus.UI;
 
 class Program
 {
-    public static string user = "BVITOR";
-    public static string password = "1234";
     static void Main(string[] args)
     {
         if(args.Length != 0 && args[0] == "test")
@@ -12,7 +10,7 @@ class Program
 
         Ui.SplashScreen();
 
-        Login(user, password, 3);
+        Login(3);
 
         Ui.AppUi("clear", "");
 
@@ -74,7 +72,7 @@ class Program
         return option;
     }
 
-    static void Login(string user, string password, int attempts)
+    static void Login(int attempts)
     {
         string inputUser = null!;
         string inputPassword = null!;
@@ -162,14 +160,19 @@ class Program
             if(key.Key != ConsoleKey.Enter)
             {
                 AnsiConsole.Markup("[bold gray58]*[/]");
-                inputPassword += char.ToUpper(key.KeyChar);
+                inputPassword += key.KeyChar;
             }
 
         } while(key.Key != ConsoleKey.Enter);
 
-        if(inputUser == user && inputPassword == password)
+        foreach(User user in User.NexusUsers)
         {
-            return;
+
+            if(inputUser == user.Username && inputPassword == user.Password)
+            {
+                return;
+            }
+
         }
 
         if(--attempts == 0)
@@ -192,6 +195,40 @@ class Program
         );
     
         Thread.Sleep(3000);
-        Login(user, password, attempts);
+        Login(attempts);
+    }
+}
+
+class User
+{
+    public string Username { get; }
+    public string Password { get; }
+    public string Name { get; } 
+    public string Position { get; }
+
+    public User(string username, string password, string name, string position)
+    {
+        Username = username.ToUpper();
+        Password = password;
+        Name = name;
+        Position = position;
+    }
+
+    private static List<User> _nexusUsers = new List<User>()
+    {
+        new User("nAMANDA", "amanda@NEXUS", "Amanda Nogueira", "Tax Coordinator"),
+        new User("nDAVI", "davi@NEXUS", "Davi Olavo", "Senior Tax Analyst"),
+        new User("nANDRE", "andre@NEXUS", "André Guimarães", "Junior Tax Systems Analyst"),
+        new User("nADRIANA", "adriana@NEXUS", "Adriana Lei", "Mid-Level Tax Assistant"),
+        new User("nJOAO", "joao@NEXUS", "João Dário", "Tax Assistant"),
+        new User("nTEST", "test", "Teste", "Tester")
+    };
+
+    public static IReadOnlyList<User> NexusUsers
+    {
+        get
+        {
+            return _nexusUsers;
+        }
     }
 }
